@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "install.packages('rvest',dependencies = TRUE)\ninstall.packages('xml2')\ninstall.packages('stringr',dependencies = TRUE)\ninstall.packages('plyr',dependencies = TRUE)\ninstall.packages('dplyr',dependencies = TRUE)\ninstall.packages('twitteR',dependencies = TRUE)\ninstall.packages('ROAuth',dependencies = TRUE)\ninstall.packages('Rfacebook',dependencies = TRUE)\ninstall.packages('RCurl',dependencies = TRUE)\n\n\n\nlibrary(rvest)\nlibrary(xml2)\nlibrary(stringr)\nlibrary(plyr); library(dplyr)\nlibrary(twitteR)\nlibrary(ROAuth)\nlibrary(Rfacebook)\nlibrary(RCurl)\n\ninstall.packages('arules',dependencies = TRUE)",
+    "created" : 1502224132805.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1270444126",
+    "id" : "AFABBE3E",
+    "lastKnownWriteTime" : 1503432697,
+    "last_content_update" : 1503432697677,
+    "path" : "D:/Data/R/SocialMining/installPaqcages.R",
+    "project_path" : "installPaqcages.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

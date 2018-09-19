@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "fbOAuth <- function(app_id, app_secret, extended_permissions=FALSE, legacy_permissions=FALSE, scope=NULL)\n{\n  ## getting callback URL\n  full_url <- oauth_callback()\n  full_url <- gsub(\"(.*localhost:[0-9]{1,5}/).*\", x=full_url, replacement=\"\\\\1\")\n  message <- paste(\"Copy and paste into Site URL on Facebook App Settings:\",\n                   full_url, \"\\nWhen done, press any key to continue...\")\n  ## prompting user to introduce callback URL in app page\n  invisible(readline(message))\n  ## a simplified version of the example in httr package\n  facebook <- oauth_endpoint(\n    authorize = \"https://www.facebook.com/dialog/oauth\",\n    access = \"https://graph.facebook.com/oauth/access_token\") \n  myapp <- oauth_app(\"facebook\", app_id, app_secret)\n  if (is.null(scope)) {\n    if (extended_permissions==TRUE){\n      scope <- c(\"user_birthday\", \"user_hometown\", \"user_location\", \"user_relationships\",\n                 \"publish_actions\",\"user_status\",\"user_likes\")\n    }\n    else { scope <- c(\"public_profile\", \"user_friends\")}\n    \n    if (legacy_permissions==TRUE) {\n      scope <- c(scope, \"read_stream\")\n    }\n  }\n  \n  if (packageVersion('httr') < \"1.2\"){\n    stop(\"Rfacebook requires httr version 1.2.0 or greater\")\n  }\n  \n  ## with early httr versions\n  if (packageVersion('httr') <= \"0.2\"){\n    facebook_token <- oauth2.0_token(facebook, myapp,\n                                     scope=scope)\n    fb_oauth <- sign_oauth2.0(facebook_token$access_token)\n    if (GET(\"https://graph.facebook.com/me\", config=fb_oauth)$status==200){\n      message(\"Authentication successful.\")\n    }\n  }\n  \n  ## less early httr versions\n  if (packageVersion('httr') > \"0.2\" & packageVersion('httr') <= \"0.6.1\"){\n    fb_oauth <- oauth2.0_token(facebook, myapp,\n                               scope=scope, cache=FALSE) \n    if (GET(\"https://graph.facebook.com/me\", config(token=fb_oauth))$status==200){\n      message(\"Authentication successful.\")\n    } \n  }\n  \n  ## httr version from 0.6 to 1.1\n  if (packageVersion('httr') > \"0.6.1\" & packageVersion('httr') < \"1.2\"){\n    Sys.setenv(\"HTTR_SERVER_PORT\" = \"1410/\")\n    fb_oauth <- oauth2.0_token(facebook, myapp,\n                               scope=scope, cache=FALSE)  \n    if (GET(\"https://graph.facebook.com/me\", config(token=fb_oauth))$status==200){\n      message(\"Authentication successful.\")\n    } \n  }\n  \n  ## httr version after 1.2\n  if (packageVersion('httr') >= \"1.2\"){\n    fb_oauth <- oauth2.0_token(facebook, myapp,\n                               scope=scope, cache=FALSE)  \n    if (GET(\"https://graph.facebook.com/me\", config(token=fb_oauth))$status==200){\n      message(\"Authentication successful.\")\n    } \n  }\n  \n  ## identifying API version of token\n  error <- tryCatch(callAPI('https://graph.facebook.com/pablobarbera', fb_oauth),\n                    error = function(e) e)\n  if (inherits(error, 'error')){\n    class(fb_oauth)[4] <- 'v2'\n  }\n  if (!inherits(error, 'error')){\n    class(fb_oauth)[4] <- 'v1'\n  }\n  \n  return(fb_oauth)\n}",
+    "created" : 1496735477231.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4125718164",
+    "id" : "98DE25C3",
+    "lastKnownWriteTime" : 1496735587,
+    "last_content_update" : 1496735587370,
+    "path" : "C:/Data/R/SocialMining/data/SocialMining/funcionfb.R",
+    "project_path" : "funcionfb.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
